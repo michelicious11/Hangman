@@ -1,0 +1,1 @@
+#Classe pour traiter tout ce qui a attrait au mot
