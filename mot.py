@@ -23,7 +23,7 @@ class Mot:
    
 
     def pick_random_word():
-	datapath = '/sdcard/WordDB50.xlsx'
+	datapath = '/WordDB50.xlsx'
 	workbook = xlrd.open_workbook(datapath)
 	worksheet = workbook.sheet_by_index(0)
 	cell = worksheet.cell(random.randint(1, 50),0)
