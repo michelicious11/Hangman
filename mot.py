@@ -14,13 +14,23 @@ class Mot:
         
         
     def check_word():
-        
+	global word
+	x = len(word)
+	print("word length is: ", x)
+	for x in word:
+		print("-")
     
-    def remove_letter():
+    def remove_letter(letter):
+        alphabet = list(string.ascii.undercase)
+        if letter in alphabet:
+           alphabet.remove(letter)
+        else:
+           print("Already removed!")
+	
+        return alphabet
         
-        
-    def afficher_letter():
-   
+    def afficher_letter(letter):
+        print("The Selected letter is :", letter)
 
     def pick_random_word():
 	datapath = '/WordDB50.xlsx'
