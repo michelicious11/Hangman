@@ -1,1 +1,0 @@
-#variables et fonctions pour les regles du jeu
