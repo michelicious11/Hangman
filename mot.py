@@ -65,3 +65,7 @@ def show_letters_picked():
     else:
         for letter in list_of_picked_letters:
             print(letter, end=' ')
+
+
+	
+
