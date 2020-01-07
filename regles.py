@@ -26,7 +26,10 @@ def play_turn():
     show_number_of_guesses()
     mot.show_letters_picked()
     mot.check_word()
-    if not mot.found_letter:
+    number_of_remaining_letters = len(mot.word_to_find)
+    if mot.found_letter:
+        number_of_remaining_letters -= 1
+    elif not mot.found_letter:
         lose_guess()
     print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     end_game()
@@ -34,7 +37,7 @@ def play_turn():
 
 def start_game():
     user_name = input("Quel est votre nom ? ")
-    print("Bonjour", user_name, ", nous allons commencer une partie de bonhomme pendu. \n")
+    print("Bonjour ", user_name, ", nous allons commencer une partie de bonhomme pendu. \n", sep='')
     print("Le but du jeu est de trouver le mot cache. ")
     print("Essayez de deviner les lettres composant le mot dans le nombre de tentatives choisi.")
 
@@ -45,13 +48,14 @@ def start_game():
     number_of_guesses = int(input("Choisissez le nombre d'essais : "))
     print("Bonne chance!")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
+    mot.initiate_word()
 
 def end_game():
     global number_of_guesses
     global number_of_remaining_letters
     if number_of_guesses == 0:
         print("Desole, vous avez perdu!")
+        print("Le mot a trouver etait", mot.word_to_find)
     elif number_of_remaining_letters == 0:
         print("Felicitations, vous avez gagne!")
     else:
