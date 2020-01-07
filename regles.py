@@ -26,9 +26,8 @@ def play_turn():
     show_number_of_guesses()
     mot.show_letters_picked()
     mot.check_word()
-    mot.pick_letter()
-    lose_guess()
-    mot.check_word()
+    if not mot.found_letter:
+        lose_guess()
     print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     end_game()
 
@@ -45,7 +44,7 @@ def start_game():
     global number_of_guesses
     number_of_guesses = int(input("Choisissez le nombre d'essais : "))
     print("Bonne chance!")
-    print("\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
 
 def end_game():
