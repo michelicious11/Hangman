@@ -10,6 +10,7 @@ import mot
 number_of_guesses = None
 number_of_remaining_letters = None
 
+
 def lose_guess():
     global number_of_guesses
     number_of_guesses -= 1
@@ -17,7 +18,7 @@ def lose_guess():
 
 def show_number_of_guesses():
     global number_of_guesses
-    print("\nNombre d'essais : ", number_of_guesses)
+    print("Nombre d'essais : ", number_of_guesses)
 
 
 def play_turn():
@@ -25,14 +26,12 @@ def play_turn():
     mot.show_letters_picked()
     mot.check_word()
     if mot.found_letter:
-        global number_of_remaining_letters
-        number_of_remaining_letters -= 1
         print("NUMBER OF REMAINNN :::: ", number_of_remaining_letters)
     elif not mot.found_letter:
         lose_guess()
     print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     end_game()
-    
+
 
 def start_game():
     user_name = input("Quel est votre nom ? ")
@@ -44,20 +43,20 @@ def start_game():
     global number_of_remaining_letters
     number_of_remaining_letters = len(mot.word_to_find)
     global number_of_guesses
-    number_of_guesses = 0 
-    while True: 
-      try: 
-         number_of_guesses = int(input("Choisissez le nombre d'essais: ")) 
-      except ValueError: 
-         print("Veuillez entrer un nombre valide!") 
-         continue
-      else:
-         print("Parfait!")
-         break
-
+    number_of_guesses = 0
+    while True:
+        try:
+            number_of_guesses = int(input("Choisissez le nombre d'essais: "))
+        except ValueError:
+            print("Veuillez entrer un nombre valide!")
+            continue
+        else:
+            print("Parfait!")
+            break
     print("Bonne chance!")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     mot.initiate_word()
+
 
 def end_game():
     global number_of_guesses
