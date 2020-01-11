@@ -5,6 +5,7 @@ Created on Fri Dec 27 09:11:37 2019
 @author: Mick Pl
 """
 
+
 import random
 import xlrd
 import string
@@ -15,9 +16,9 @@ word_to_find = None
 picked_letter = None
 list_of_available_letters = list(string.ascii_lowercase)
 list_of_picked_letters = []
-found_letter = False
-
-
+found_letter = None
+number_of_good_letters = 0
+number_of_remaining_letters = None
 # fonction pour selectionner un mot au hasard dans le fichier excel
 def pick_random_word():
     global word_to_find
@@ -46,9 +47,7 @@ def pick_letter():
 def initiate_word():
     global word_to_find
     for letter in word_to_find:
-        if letter in list_of_picked_letters:
-            print(letter, end='')
-        elif letter not in list_of_picked_letters:
+        if letter not in list_of_picked_letters:
             print("-", end='')
 
 
@@ -58,12 +57,16 @@ def check_word():
     global found_letter
     found_letter = False
     pick_letter()
+    global number_of_good_letters
     for letter in word_to_find:
-        if letter in list_of_picked_letters:
-            print(letter, end='')
-            found_letter = True
-        elif letter not in list_of_picked_letters:
-            print("-", end='')
+      if letter in list_of_available_letters:
+          if letter in word_to_find:
+             number_of_good_letters += 1
+          print(letter, end='')
+      if number_of_good_letters == len(list_of_picked_letters) + 1:
+          found_letter = True
+      elif letter not in list_of_picked_letters:
+          print("-", end='')
 
 
 
