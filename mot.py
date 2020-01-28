@@ -27,6 +27,55 @@ def pick_random_word():
     word_to_find = str(worksheet.cell(random.randint(1, 50), 0).value)
     word_to_find = word_to_find.lower()
 
+    print("\nThe Word:", word_to_find)
+
+
+# fonction pour choisir une lettre - ajoute lettre dans liste lettres choisi et la retire de liste lettre non choisies
+# si lettre deja choisie, message avisant le joueur
+def pick_letter():
+    global picked_letter
+    is_letter_picked = True
+    while is_letter_picked:
+        picked_letter = input("\nPick a letter: ")
+        picked_letter = picked_letter.lower()
+        if picked_letter in list_of_available_letters:
+            list_of_available_letters.remove(picked_letter)
+            list_of_picked_letters.append(picked_letter)
+            is_letter_picked = False
+        else:
+            print("La lettre a deja ete choisie!")
+
+
+def initiate_word():
+    global word_to_find
+    for letter in word_to_find:
+        if letter not in list_of_picked_letters:
+            print("-", end='')
+
+
+# fonction pour imprimer le mot avec les bonnes lettres choisies
+def print_word():
+    global word_to_find
+    
+    pick_letter()
+    for letter in word_to_find:
+        if letter in list_of_picked_letters:
+            print(letter, end='')
+            
+        elif letter not in list_of_picked_letters:
+            print("-", end='')
+
+def check_word():
+    global word_to_find
+    global found_letter
+    global picked_letter
+    found_letter = False
+    for letter in word_to_find:
+        if letter == picked_letter:
+            found_letter = True
+        else:
+            found_letter = False
+
 
 # fonction pour choisir une lettre - ajoute lettre dans liste lettres choisi et la retire de liste lettre non choisies
 # si lettre deja choisie, message avisant le joueur

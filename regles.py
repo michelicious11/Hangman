@@ -19,6 +19,8 @@ def lose_guess():
 
 def show_number_of_guesses():
     global number_of_guesses
+
+    print("\nNombre d'essais : ", number_of_guesses)
     print("Nombre d'essais : ", number_of_guesses)
 
 
@@ -26,6 +28,7 @@ def play_turn():
     show_number_of_guesses()
     mot.show_letters_picked()
     mot.check_word()
+    mot.print_word()
     number_of_remaining_letters = len(mot.word_to_find)
     if mot.found_letter:
         number_of_remaining_letters -= 1
