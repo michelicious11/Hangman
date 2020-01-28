@@ -19,7 +19,9 @@ def lose_guess():
 
 def show_number_of_guesses():
     global number_of_guesses
+
     print("\nNombre d'essais : ", number_of_guesses)
+    print("Nombre d'essais : ", number_of_guesses)
 
 
 def play_turn():
