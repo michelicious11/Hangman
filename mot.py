@@ -15,6 +15,7 @@ loc = "WordDB50.xlsx"
 word_to_find = None
 list_of_available_letters = list(string.ascii_lowercase)
 list_of_picked_letters = []
+letter_turn = ""
 
 # 1ere etape avoir un mot cache
 # fonction pour selectionner un mot au hasard dans le fichier excel
@@ -52,3 +53,4 @@ def pick_letter():
                 is_invalid_letter = False
             else:
                 print("La lettre a deja ete choisie!")
+    return lettre_choisie

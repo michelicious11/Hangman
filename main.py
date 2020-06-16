@@ -15,4 +15,5 @@ print(m.list_of_picked_letters)
 print(m.list_of_available_letters)
 r.check_win_condition()
 """
+
 r.start_game()

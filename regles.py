@@ -9,6 +9,22 @@ import mot as m
 
 # variables globales
 guesses = 0
+counter_turn = 0
+
+#changer le nombre de guess
+def set_guesses():
+    global guesses
+    guesses = int(input("Choisissez le nombre d'essais : "))
+
+#incrementer le tour de 1
+def add_turn():
+    global counter_turn
+    counter_turn += 1
+
+#pour savoir si c'est le premier tour
+def check_first_turn():
+    if counter_turn == 0:
+        return True
 
 # Verifier si on a gagne (2 conditions)
 # verifier si il reste assez de tentatives (condition 1)
@@ -16,26 +32,33 @@ guesses = 0
 # condition 1 : le nombre de tentatives doit etre > 0
 # condition 2 : mettre les deux listes en ordre et les comparer
 def check_win_condition():
-    counter = 0
-    global index
+    global counter_turn
     global guesses
+    print("\ncounter = ", counter_turn, " - guesses = ", guesses, " - last = ", (len(m.word_to_find) - 1))
+    print(m.list_of_picked_letters)
     if guesses > 0:
-        for letter in m.word_to_find:
-            index = list(m.word_to_find).index(letter)
-            print("\nindex = ", m.word_to_find.index(letter), " - counter = ", counter, " - last = ", (len(m.word_to_find) - 1))
-            if letter in m.list_of_picked_letters and counter == (len(m.word_to_find) - 1):
-                print("Felicitations, vous avez gagne!")
+        m.letter_turn = m.pick_letter()
+        if m.letter_turn in m.word_to_find:
+            if check_first_turn():
+                add_turn()
+                check_win_condition()
             else:
-                guesses -= 1
-                counter += 1
-                m.pick_letter()
+                for letter in m.word_to_find:
+                    index = list(m.word_to_find).index(letter)
+                    if letter in m.list_of_picked_letters and index == list(m.word_to_find)[(len(m.word_to_find) - 1)]:
+                        print("Felicitations, vous avez gagne!")
+                    else:
+                        add_turn()
+                        print("cool")
+        else:
+            add_turn()
+            guesses -= 1
+            print("why?")
+            print(guesses)
+            check_win_condition()
     else:
         print("Desole, vous avez perdu!")
         print("Le mot a trouver etait", m.word_to_find)
-
-def set_guesses():
-    global guesses
-    guesses = int(input("Choisissez le nombre d'essais : "))
 
 def start_game():
     user_name = input("Quel est votre nom ? ")
