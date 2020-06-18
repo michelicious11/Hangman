@@ -8,10 +8,7 @@ import random
 import xlrd
 import string
 import re
-
 #import regles as r
-
-
 
 # variables
 loc = "WordDB50.xlsx"
@@ -35,35 +32,22 @@ def pick_random_word():
 # 2e etape, afficher le mot cache
 # fonction pour imprimer les tirets pour chaque lettre
 def display_word():
-
     
     for letter in word_to_find:
         if letter not in list_of_picked_letters:
             print("-", end='')
         else:
-            print(letter, end='')
-
-    global word_to_find
-    for letter in word_to_find:
-        if letter not in list_of_picked_letters:
-            print("-", end='')
-
+            print(letter, end='') #Added this pour print les bonne lettres
 
 
 # 3e etape, le joueur choisit une lettre
 # fonction pour choisir une lettre - ajoute lettre dans liste lettres choisi et la retire de liste lettre non choisies
 # si lettre deja choisie, message avisant le joueur
 def pick_letter():
-
     global lettre_choisie
     is_invalid_letter = True
     while is_invalid_letter:
         lettre_choisie = input("\nChoisissez une lettre : ").lower()
-
-    is_invalid_letter = True
-    while is_invalid_letter:
-        lettre_choisie = input("Choisissez une lettre : ").lower()
-
         if not re.match("^[a-z]*$", lettre_choisie):
             print("Vous devez choisir une lettre!")
         else:
