@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Fri Dec 27 09:11:37 2019
 
@@ -10,12 +9,17 @@ import xlrd
 import string
 import re
 
+#import regles as r
+
+
+
 # variables
 loc = "WordDB50.xlsx"
 word_to_find = None
 list_of_available_letters = list(string.ascii_lowercase)
 list_of_picked_letters = []
 letter_turn = ""
+
 
 # 1ere etape avoir un mot cache
 # fonction pour selectionner un mot au hasard dans le fichier excel
@@ -31,19 +35,35 @@ def pick_random_word():
 # 2e etape, afficher le mot cache
 # fonction pour imprimer les tirets pour chaque lettre
 def display_word():
+
+    
+    for letter in word_to_find:
+        if letter not in list_of_picked_letters:
+            print("-", end='')
+        else:
+            print(letter, end='')
+
     global word_to_find
     for letter in word_to_find:
         if letter not in list_of_picked_letters:
             print("-", end='')
 
 
+
 # 3e etape, le joueur choisit une lettre
 # fonction pour choisir une lettre - ajoute lettre dans liste lettres choisi et la retire de liste lettre non choisies
 # si lettre deja choisie, message avisant le joueur
 def pick_letter():
+
+    global lettre_choisie
+    is_invalid_letter = True
+    while is_invalid_letter:
+        lettre_choisie = input("\nChoisissez une lettre : ").lower()
+
     is_invalid_letter = True
     while is_invalid_letter:
         lettre_choisie = input("Choisissez une lettre : ").lower()
+
         if not re.match("^[a-z]*$", lettre_choisie):
             print("Vous devez choisir une lettre!")
         else:
