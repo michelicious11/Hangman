@@ -3,12 +3,16 @@ Created on Fri Dec 27 08:57:25 2019
 
 @authors: MP & SF & MM
 """
+import re
+import sys
 
 import mot as m
 
 # variables globales
 counter_turn = 0
 is_word_found = False
+play_again = False
+play_again_answer = ""
 
 #changer le nombre de guess
 # on a utilisé un try-except pour obliger l'utilisateur à introduire un integer
@@ -37,6 +41,7 @@ def add_turn():
             print("\nFelicitations, vous avez gagne!")
         else :
             add_turn()
+    replay_game()
 
 # Verifier si on a gagne (2 conditions)
 # verifier si il reste assez de tentatives (condition 1)
@@ -75,3 +80,18 @@ def start_game():
     m.pick_random_word()
     m.display_word()
     add_turn()
+    replay_game()
+
+def replay_game():
+    is_invalid_choice = False
+    global play_again_answer
+    while is_invalid_choice:
+        play_again_answer = str(input("Voulez-vous jouer a nouveau? ('o' pour oui, 'n' pour non) ")).lower()
+        if not re.match("^^(?:o|n)$", play_again_answer):
+            print("Vous devez choisir une option valable ! ('o' pour oui, 'n' pour non)")
+        else:
+            is_invalid_choice = True
+    if play_again_answer == "o":
+        start_game()
+    else:
+        sys.exit()
