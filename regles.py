@@ -9,12 +9,15 @@ import sys
 import mot as m
 
 # variables globales
+user_name = ""
 counter_turn = 0
 is_word_found = False
 play_again = False
 play_again_answer = ""
 
-#changer le nombre de guess
+
+
+# changer le nombre de guess
 # on a utilisé un try-except pour obliger l'utilisateur à introduire un integer
 def set_guesses():
     while True:
@@ -23,25 +26,25 @@ def set_guesses():
             break
         except:
             print("Veuillez choisir un nombre!")
-    
 
-#incrementer le tour de 1
+
+# incrementer le tour de 1
 def add_turn():
     global counter_turn
     global is_word_found
     if m.guesses == counter_turn:
-        print("\nDésolé, vous avez perdu!")
-        print("\nLe mot à trouver était", m.word_to_find)
+        print("\nDésolé, ", user_name, " vous avez perdu!")
+        print("Le mot à trouver était", m.word_to_find, "\n")
     elif m.guesses > counter_turn:
         m.pick_letter()
         m.check_letter()
         m.display_word()
         check_win_condition()
         if is_word_found == True:
-            print("\nFelicitations, vous avez gagne!")
-        else :
+            print("\nFelicitations, ", user_name, " vous avez gagne!", "\n")
+        else:
             add_turn()
-    replay_game()
+
 
 # Verifier si on a gagne (2 conditions)
 # verifier si il reste assez de tentatives (condition 1)
@@ -56,20 +59,23 @@ def add_turn():
 
 def check_win_condition():
     global counter_turn
-    global is_word_found #Boolean pour verifier la condition
+    global is_word_found  # Boolean pour verifier la condition
 
     f = set(m.list_of_picked_letters)  # transformation de list_of_picked_letters en set
     t = set(m.word_to_find)  # transformation de word_to_find en set
 
-    g = f & t # Intersection entre list_of_picked_letters et word_to_find
+    g = f & t  # Intersection entre list_of_picked_letters et word_to_find
 
-    if len(g) == len(set(m.word_to_find)): # condition : si la longueur de l'intersection et du set word_to_find est la même
+    if len(g) == len(
+            set(m.word_to_find)):  # condition : si la longueur de l'intersection et du set word_to_find est la même
         is_word_found = True  # changer la valeur pour vrai et donc on a trouvé le mot
     else:
         is_word_found = False  # changer la valeur pour faux et donc on a pas trouvé le mot
 
+
 # fonction pour initialiser le debut de la partie avec les fonctions de regles
 def start_game():
+    global user_name
     user_name = input("Quel est votre nom ? ")
     print("Bonjour ", user_name, ", nous allons commencer une partie de bonhomme pendu. \n", sep='')
     print("Le but du jeu est de trouver le mot cache. ")
@@ -82,15 +88,16 @@ def start_game():
     add_turn()
     replay_game()
 
+
 def replay_game():
-    is_invalid_choice = False
+    is_invalid_choice = True
     global play_again_answer
     while is_invalid_choice:
-        play_again_answer = str(input("Voulez-vous jouer a nouveau? ('o' pour oui, 'n' pour non) ")).lower()
+        play_again_answer = str(input("Voulez-vous jouer a nouveau? ('o' pour oui, 'n' pour non) ").lower())
         if not re.match("^^(?:o|n)$", play_again_answer):
-            print("Vous devez choisir une option valable ! ('o' pour oui, 'n' pour non)")
+            print("Vous devez choisir une option valide ! ('o' pour oui, 'n' pour non)")
         else:
-            is_invalid_choice = True
+            is_invalid_choice = False
     if play_again_answer == "o":
         start_game()
     else:
