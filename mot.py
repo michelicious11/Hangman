@@ -16,6 +16,7 @@ word_to_find = None
 list_of_available_letters = list(string.ascii_lowercase)
 list_of_picked_letters = []
 letter_turn = ""
+guesses = None
 
 
 # 1ere etape avoir un mot cache
@@ -32,7 +33,6 @@ def pick_random_word():
 # 2e etape, afficher le mot cache
 # fonction pour imprimer les tirets pour chaque lettre
 def display_word():
-    
     for letter in word_to_find:
         if letter not in list_of_picked_letters:
             print("-", end='')
@@ -58,3 +58,16 @@ def pick_letter():
             else:
                 print("La lettre a deja ete choisie!")
     return lettre_choisie
+
+# La fonction check_letter va verifier si la lettre choisie est bonne ou mauvaise
+# Et changer le nombre d'essai dépendamment de la lettre choisie.
+def check_letter():
+    global guesses
+    if lettre_choisie in word_to_find:
+        print("\n", list_of_picked_letters)
+        print("\n", list_of_available_letters)
+    else:
+        print("\n", list_of_picked_letters)
+        print("\n", list_of_available_letters)
+        guesses -= 1 # la decrementation ce passe ici
+    print("\nNombre d'essais: ", guesses)
