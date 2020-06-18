@@ -1,24 +1,24 @@
-# -*- coding: utf-8 -*-
 """
 Created on Fri Dec 27 09:11:37 2019
 
-@author: Mick Pl
+@authors: MP & SF & MM
 """
-
 
 import random
 import xlrd
 import string
+import re
+#import regles as r
 
 # variables
 loc = "WordDB50.xlsx"
 word_to_find = None
-picked_letter = None
 list_of_available_letters = list(string.ascii_lowercase)
 list_of_picked_letters = []
-found_letter = None
-number_of_good_letters = 0
-number_of_remaining_letters = None
+letter_turn = ""
+
+
+# 1ere etape avoir un mot cache
 # fonction pour selectionner un mot au hasard dans le fichier excel
 def pick_random_word():
     global word_to_find
@@ -29,101 +29,32 @@ def pick_random_word():
 
     print("\nThe Word:", word_to_find)
 
-
-# fonction pour choisir une lettre - ajoute lettre dans liste lettres choisi et la retire de liste lettre non choisies
-# si lettre deja choisie, message avisant le joueur
-def pick_letter():
-    global picked_letter
-    is_letter_picked = True
-    while is_letter_picked:
-        picked_letter = input("\nPick a letter: ")
-        picked_letter = picked_letter.lower()
-        if picked_letter in list_of_available_letters:
-            list_of_available_letters.remove(picked_letter)
-            list_of_picked_letters.append(picked_letter)
-            is_letter_picked = False
-        else:
-            print("La lettre a deja ete choisie!")
-
-
-def initiate_word():
-    global word_to_find
-    for letter in word_to_find:
-        if letter not in list_of_picked_letters:
-            print("-", end='')
-
-
-# fonction pour imprimer le mot avec les bonnes lettres choisies
-def print_word():
-    global word_to_find
+# 2e etape, afficher le mot cache
+# fonction pour imprimer les tirets pour chaque lettre
+def display_word():
     
-    pick_letter()
-    for letter in word_to_find:
-        if letter in list_of_picked_letters:
-            print(letter, end='')
-            
-        elif letter not in list_of_picked_letters:
-            print("-", end='')
-
-def check_word():
-    global word_to_find
-    global found_letter
-    global picked_letter
-    found_letter = False
-    for letter in word_to_find:
-        if letter == picked_letter:
-            found_letter = True
-        else:
-            found_letter = False
-
-
-# fonction pour choisir une lettre - ajoute lettre dans liste lettres choisi et la retire de liste lettre non choisies
-# si lettre deja choisie, message avisant le joueur
-def pick_letter():
-    global picked_letter
-    is_letter_picked = True
-    while is_letter_picked:
-        picked_letter = input("\nPick a letter: ")
-        picked_letter = picked_letter.lower()
-        if picked_letter in list_of_available_letters:
-            list_of_available_letters.remove(picked_letter)
-            list_of_picked_letters.append(picked_letter)
-            is_letter_picked = False
-        else:
-            print("La lettre a deja ete choisie!")
-
-
-def initiate_word():
-    global word_to_find
     for letter in word_to_find:
         if letter not in list_of_picked_letters:
             print("-", end='')
+        else:
+            print(letter, end='')
 
 
-# fonction pour imprimer le mot avec les bonnes lettres choisies
-def check_word():
-    global word_to_find
-    global found_letter
-    found_letter = False
-    pick_letter()
-    global number_of_good_letters
-    for letter in word_to_find:
-      if letter in list_of_available_letters:
-          if letter in word_to_find:
-             number_of_good_letters += 1
-          print(letter, end='')
-      if number_of_good_letters == len(list_of_picked_letters) + 1:
-          found_letter = True
-      elif letter not in list_of_picked_letters:
-          print("-", end='')
-
-
-
-def show_letters_picked():
-    global list_of_picked_letters
-    print("Lettres choisies : ", end='')
-    if not list_of_picked_letters:
-        print("aucune")
-    else:
-        for letter in list_of_picked_letters:
-            print(letter, end=' ')
+# 3e etape, le joueur choisit une lettre
+# fonction pour choisir une lettre - ajoute lettre dans liste lettres choisi et la retire de liste lettre non choisies
+# si lettre deja choisie, message avisant le joueur
+def pick_letter():
+    global lettre_choisie
+    is_invalid_letter = True
+    while is_invalid_letter:
+        lettre_choisie = input("\nChoisissez une lettre : ").lower()
+        if not re.match("^[a-z]*$", lettre_choisie):
+            print("Vous devez choisir une lettre!")
+        else:
+            if lettre_choisie in list_of_available_letters:
+                list_of_available_letters.remove(lettre_choisie)
+                list_of_picked_letters.append(lettre_choisie)
+                is_invalid_letter = False
+            else:
+                print("La lettre a deja ete choisie!")
+    return lettre_choisie

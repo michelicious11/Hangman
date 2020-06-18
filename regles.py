@@ -1,41 +1,82 @@
-# -*- coding: utf-8 -*-
 """
 Created on Fri Dec 27 08:57:25 2019
 
-@author: Mick Pl
+@authors: MP & SF & MM
 """
 
-import mot
+import mot as m
 
-# variables
-number_of_guesses = None
-number_of_remaining_letters = None
+# variables globales
+guesses = 0
+counter_turn = 0
+verity = False
 
+#changer le nombre de guess
+def set_guesses():
+    global guesses
+    while True:
+        try:
+            guesses = int(input("Choisissez le nombre d'essais : "))
+            break
+        except:
+            print("That's not a valid option!")
+    
 
-def lose_guess():
-    global number_of_guesses
-    number_of_guesses -= 1
+#incrementer le tour de 1
+def add_turn():
+    global counter_turn
+    global verity
+    if guesses == counter_turn:
+        print("\nDésolé, vous avez perdu!")
+        print("\nLe mot à trouver était", m.word_to_find)
+    elif guesses > counter_turn:
+        m.pick_letter()
+        check_letter()
+        m.display_word()
+        check_win_condition()
+        if verity == True:
+            print("\nFelicitations, vous avez gagne!")
+        else :
+            add_turn()
 
+#pour savoir si c'est le premier tour
+def check_first_turn():
+    if counter_turn == 0:
+        return True
 
-def show_number_of_guesses():
-    global number_of_guesses
+# Verifier si on a gagne (2 conditions)
+# verifier si il reste assez de tentatives (condition 1)
+# et si les lettres de la liste picked_letters sont les memes que celui du word_to_find (condition 2)
+# condition 1 : le nombre de tentatives doit etre > 0
+# condition 2 : mettre les deux listes en ordre et les comparer
+def check_win_condition():
+    global counter_turn
+    global guesses
+    global verity
 
-    print("\nNombre d'essais : ", number_of_guesses)
-    print("Nombre d'essais : ", number_of_guesses)
+    f = set(m.list_of_picked_letters)
+    t = set(m.word_to_find)
 
+    g = f & t
 
-def play_turn():
-    show_number_of_guesses()
-    mot.show_letters_picked()
-    mot.check_word()
-    mot.print_word()
-    number_of_remaining_letters = len(mot.word_to_find)
-    if mot.found_letter:
-        number_of_remaining_letters -= 1
-    elif not mot.found_letter:
-        lose_guess()
-    print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    end_game()
+    if len(g) == len(set(m.word_to_find)):
+        verity = True
+    else :
+        verity = False
+
+def check_letter():
+    global guesses
+    if m.lettre_choisie in m.word_to_find:
+        print("\nCool!")
+        print("\n", m.list_of_picked_letters)
+        print("\n", m.list_of_available_letters)
+        print("\nNumber of guesses: ", guesses)
+    else:
+        print("\nTry Again !")
+        print("\n", m.list_of_picked_letters)
+        print("\n", m.list_of_available_letters)
+        guesses -= 1
+        print("\nNumber of guesses: ", guesses)
 
 
 def start_game():
@@ -43,28 +84,9 @@ def start_game():
     print("Bonjour ", user_name, ", nous allons commencer une partie de bonhomme pendu. \n", sep='')
     print("Le but du jeu est de trouver le mot cache. ")
     print("Essayez de deviner les lettres composant le mot dans le nombre de tentatives choisi.")
-
-    mot.pick_random_word()
-    global number_of_remaining_letters
-    number_of_remaining_letters = len(mot.word_to_find)
-    global number_of_guesses
-    number_of_guesses = int(input("Choisissez le nombre d'essais : "))
+    set_guesses()
     print("Bonne chance!")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    mot.initiate_word()
-
-def end_game():
-    global number_of_guesses
-    global number_of_remaining_letters
-    if number_of_guesses == 0:
-        print("Desole, vous avez perdu!")
-        print("Le mot a trouver etait", mot.word_to_find)
-    elif number_of_remaining_letters == 0:
-        print("Felicitations, vous avez gagne!")
-    else:
-        play_turn()
-
-
-def play_hangman():
-    start_game()
-    play_turn()
+    m.pick_random_word()
+    m.display_word()
+    add_turn()

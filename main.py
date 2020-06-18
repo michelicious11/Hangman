@@ -1,6 +1,5 @@
 # main
 
 import regles as r
-import mot
 
-r.play_hangman()
+r.start_game()
